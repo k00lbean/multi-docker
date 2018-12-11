@@ -1,0 +1,17 @@
+### Define where to get the build image from on DockerHub
+FROM node:alpine
+
+### Set the working directory on the container
+WORKDIR '/app'
+
+### Copy the package.json file from local directory to the container working directory
+COPY ./package.json ./
+
+### Run npm install on the container
+RUN npm install
+
+### Copy the remaining files/directories from local directory to the container working directory
+COPY . .
+
+### Run a command on container of npm run dev
+CMD ["npm", "run", "dev"]
