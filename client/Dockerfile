@@ -1,3 +1,7 @@
+
+#########################################################
+### FIRST BUILD
+#########################################################
 ### Define where to get the build image from on DockerHub and name image as builder
 FROM node:alpine as builder
 
@@ -17,7 +21,7 @@ COPY . .
 RUN npm run build
 
 #########################################################
-### NEXT BUILD
+### SECOND BUILD
 #########################################################
 ### Define where to get the build image from on DockerHub for nginx
 FROM nginx
@@ -27,3 +31,6 @@ EXPOSE 3000
 
 ### Overwrite container default.conf with local copy
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+
+### Copy production build content built from FIRST BUILD to current container ngninx  local directory
+COPY --from=builder /app/build /usr/share/nginx/html
